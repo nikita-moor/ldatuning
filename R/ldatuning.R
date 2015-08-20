@@ -7,7 +7,7 @@
 #' @name ldatuning
 NULL
 #> NULL
-1
+
 ### common
 # devtools::use_package("devtools",    "Imports")
 # devtools::use_package("knitr",       "Suggests")
