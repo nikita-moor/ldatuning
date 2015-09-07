@@ -1,21 +1,23 @@
 Package: ldatuning
 Type: Package
 Title: Tuning of the LDA models parameters
-Description: For this first version only two metrics to estimate the best
-    fitting number of topics are implemented.
+Description: For this first version only metrics to estimate the best fitting
+    number of topics are implemented.
 Version: 0.0.9000
-Date: 2015-08-18
+Date: 2015-09-06
 Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut", "cre"))
 License: BSD_2_clause + file LICENSE
 LazyData: TRUE
-Imports: parallel,
+Imports:
+    parallel,
     topicmodels,
-    entropy,
     slam,
     Rmpfr,
-    Hmisc,
-    ggplot2
-Suggests: reshape2,
+    ggplot2,
+    reshape2,
+    scales,
+    grid
+Suggests:
     knitr
 VignetteBuilder: knitr

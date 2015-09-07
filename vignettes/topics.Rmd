@@ -2,100 +2,92 @@
 title: "Select number of topics for LDA model"
 author: "Murzintcev Nikita"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+
+output:
+  html_document:
+    toc: true
+    theme: united
+    
+bibliography: references.bib
+csl: acm-sigchi-proceedings.csl
+
 vignette: >
   %\VignetteIndexEntry{Select number of topics for LDA model}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```{r setup, include=FALSE}
+# library(printr)
+# knitr::opts_chunk$set(cache=TRUE)
+# knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-Package `ldatuning` realise two function to select appropriate number of topics for LDA model.
+Install package from github (only once for the first time). Remember that this is first public version of the package and it can contain errors.
 
-```{r, message = FALSE}
+```{r, eval=FALSE}
+library(devtools)
+install_github("ldatuning")
+```
+
+Package `ldatuning` realize 4 metrics to select perfect number of topics for LDA model.
+
+```{r, message=FALSE}
 library("ldatuning")
 ```
 
-Next examples use "AssociatedPress" dataset from the `topicmodels` package.
+Load "AssociatedPress" dataset from the `topicmodels` package.
 
-```{r, message = FALSE}
+```{r, message=FALSE}
 library("topicmodels")
 data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
 ```
 
-## Harmonic means
+The most easy way is to calculate all metrics at once. All existing methods require to train multiple LDA models to select one with the best performance. It is computation intensive procedure and `ldatuning` use parallelism, so do not forget to point correct number of CPU cores in `mc.core` parameter to archive the best performance. All standard LDA methods and parameters from `topimodels` package can be set with parameters `method` and `control`.
 
-The first idea was proposed by Griffiths2004 and base on counting of harmonic likelihood for the series of LDA models and selection of the one with the highest value (harmonic means are always negative numbers).
-
-```{r, fig.width = 5, eval = FALSE}
-metrics <- griffiths2004(dtm, topics = 2:10, mc.cores = 2L)
-griffiths2004plot(metrics)
+```{r, eval=TRUE}
+result <- FindTopicsNumber(
+  dtm,
+  topics = seq(from = 10, to = 50, by = 5),
+  metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"),
+  method = "Gibbs",
+  control = list(seed = 77),
+  mc.cores = 2L,
+  verbose = TRUE
+)
 ```
 
-![griffiths2004plot](topics_img1.png)
+Result is a number of topics and corresponding values of metrics
 
-Later xxx2009 showed that this metric is not stable on real data...
-
-## Symmetric Kullback-Leiber divergence
-
-Arun2010 proposed metric, which should decrease close to optimal number of topics and rise again after this interval. Though, all effort to repeat his experiment (e.g. ) leads to monotone increasing metric with local minimums.
-
-```{r, fig.width = 5, eval = FALSE}
-metrics <- arun2010(dtm, topics = 2:10, mc.cores = 2L)
-arun2010plot(metrics)
+```{r, echo=FALSE}
+knitr::kable(result)
 ```
 
-![arun2010plot](topics_img2.png)
+Simple approach in analyze of metrics is to find extremum, more complete description is in corresponding papers:
 
-Also, there should be secondary dips, corresponding to the optimal number of topics multiplied to integral number, i.e. splitting of optimal topics into 2, 3 or more parts. The last plot can be interpreted as 4 optimal topics and 8 quasi-optimal. Of course, this small corpus is just an example and analyse is insignificant.
+* minimization:
+    + Arun2010 [@Arun2010]
+    + CaoJuan2009 [@CaoJuan2009]
 
+* maximization:
+    + Deveaud2014 [@Deveaud2014]
+    + Griffiths2004 [@Griffiths2004; @Ponweiser2012]
 
+For easy analyze of the results can be used support function `FindTopicsNumber_plot`
 
-
-
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+```{r, fig.width=6, fig.height=3, results="hide"}
+FindTopicsNumber_plot(result)
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+More reliable results calculated on the whole dataset (about 10 hours on quad-core computer) looks like
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
+```{r, fig.width=9, fig.height=5, echo=FALSE}
+result <- read.csv(file = "files/APress.csv", header = TRUE)
+FindTopicsNumber_plot(result[result$topics < 500, ])
 ```
 
-Also a quote using `>`:
+From this plot can be made conclusion that optimal number of topics is in range 90-120. Metric Deveaud2014 is not informative in this situation.
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+
+# References
