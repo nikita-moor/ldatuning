@@ -3,4 +3,4 @@ This package use some metrics to find optimal number of topics for Latent Dirich
 
 ![](README-unnamed-chunk-2-1.png)
 
-For more complete explanation see [vignette](example.pdf).
+For more complete explanation see [vignette](http://rpubs.com/nikita-moor/107657).
