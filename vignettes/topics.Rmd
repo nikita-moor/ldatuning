@@ -26,8 +26,7 @@ vignette: >
 Install package from github (only once for the first time). Remember that this is first public version of the package and it can contain errors.
 
 ```{r, eval=FALSE}
-library(devtools)
-install_github("ldatuning")
+devtools::install_github("nikita-moor/ldatuning")
 ```
 
 Package `ldatuning` realize 4 metrics to select perfect number of topics for LDA model.
