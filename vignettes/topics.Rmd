@@ -6,9 +6,6 @@ output:
   html_document:
     theme: united
     toc: yes
-  pdf_document:
-    highlight: zenburn
-    toc: yes
 csl: acm-sigchi-proceedings.csl
 bibliography: references.bib
 vignette: |

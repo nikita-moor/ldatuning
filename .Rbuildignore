@@ -3,6 +3,7 @@
 
 todo\.txt
 example\.pdf
+vignettes/rsconnect/.*
 
 ^README\.Rmd$
 ^README-.*\.png$
