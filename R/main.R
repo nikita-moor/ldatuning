@@ -45,13 +45,13 @@
 #' library(topicmodels)
 #' data("AssociatedPress", package="topicmodels")
 #' dtm <- AssociatedPress[1:10, ]
-#' FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 2L)
+#' FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 1L)
 #'
 #' @export
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
-                             mc.cores = 2L, verbose = FALSE) {
+                             mc.cores = 1L, verbose = FALSE) {
   # check parameters
   if (length(topics[topics < 2]) != 0) {
     if (verbose) cat("warning: topics count can't to be less than 2, incorrect values was removed.\n")
@@ -107,14 +107,14 @@ Griffiths2004 <- function(models, control) {
   # log-likelihoods (remove first burning stage)
   burnin  <- ifelse("burnin" %in% names(control), control$burnin, 0)
   logLiks <- lapply(models, function(model) {
-    tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
+    utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
     # model@logLiks[-(1 : (control$burnin/control$keep))]
   })
   # harmonic means
   metrics <- sapply(logLiks, function(x) {
     # code is a little tricky, see explanation in Ponweiser2012
     # ToDo: add variant without "Rmpfr"
-    llMed <- median(x)
+    llMed <- stats::median(x)
     metric <- as.double( llMed - log( Rmpfr::mean( exp(
       -Rmpfr::mpfr(x, prec=2000L) + llMed
     ))))
@@ -129,7 +129,7 @@ CaoJuan2009 <- function(models) {
     # topic-word matrix
     m1 <- exp(model@beta)
     # pair-wise cosine distance
-    pairs <- combn(nrow(m1), 2)
+    pairs <- utils::combn(nrow(m1), 2)
     cos.dist <- apply(pairs, 2, function(pair) {
       x <- m1[pair[1], ]
       y <- m1[pair[2], ]
@@ -176,7 +176,7 @@ Deveaud2014 <- function(models) {
     # prevent NaN
     if (any(m1 == 0)) { m1 <- m1 + .Machine$double.xmin }
     # pair-wise Jensen-Shannon divergence
-    pairs  <- combn(nrow(m1), 2)
+    pairs  <- utils::combn(nrow(m1), 2)
     jsd <- apply(pairs, 2, function(pair) {
       x <- m1[pair[1], ]
       y <- m1[pair[2], ]
@@ -191,7 +191,7 @@ Deveaud2014 <- function(models) {
 #     ### optimized version
 #     m1   <- model@beta
 #     m1.e <- exp(model@beta)
-#     pairs  <- combn(nrow(m1), 2)
+#     pairs  <- utils::combn(nrow(m1), 2)
 #     jsd <- apply(pairs, 2, function(pair) {
 #       x   <- m1[pair[1], ]
 #       y   <- m1[pair[2], ]
@@ -221,7 +221,7 @@ Deveaud2014 <- function(models) {
 #' library(topicmodels)
 #' data("AssociatedPress", package="topicmodels")
 #' dtm <- AssociatedPress[1:10, ]
-#' optimal.topics <- FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 2L)
+#' optimal.topics <- FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010")
 #' FindTopicsNumber_plot(optimal.topics)
 #'
 #' @export

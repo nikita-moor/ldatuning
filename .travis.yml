@@ -3,3 +3,8 @@
 language: r
 warnings_are_errors: true
 sudo: required
+r_binary_packages:
+    r-cran-slam,
+    r-cran-ggplot2,
+    r-cran-reshape2,
+    r-cran-scales

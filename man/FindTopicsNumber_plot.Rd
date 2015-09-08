@@ -18,7 +18,7 @@ Support function to analyze optimal topic number. Use output of the
 library(topicmodels)
 data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
-optimal.topics <- FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 2L)
+optimal.topics <- FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010")
 FindTopicsNumber_plot(optimal.topics)
 }
 

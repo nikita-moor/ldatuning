@@ -6,7 +6,7 @@
 \usage{
 FindTopicsNumber(dtm, topics = seq(10, 40, by = 10),
   metrics = "Griffiths2004", method = "Gibbs", control = list(),
-  mc.cores = 2L, verbose = FALSE)
+  mc.cores = 1L, verbose = FALSE)
 }
 \arguments{
 \item{dtm}{An object of class "\link[tm]{DocumentTermMatrix}" with
@@ -54,6 +54,6 @@ for LDA model.
 library(topicmodels)
 data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
-FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 2L)
+FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 1L)
 }
 
