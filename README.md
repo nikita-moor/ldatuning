@@ -1,5 +1,5 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.org/NA/NA.svg?branch=master)](https://travis-ci.org/NA/NA)
+[![Travis-CI Build Status](https://travis-ci.org/nikita-moor/ldatuning.svg?branch=master)](https://travis-ci.org/nikita-moor/ldatuning)
 
 This package use some metrics to find optimal number of topics for Latent Dirichlet allocation (LDA) models.
 
