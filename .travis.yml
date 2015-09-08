@@ -1,6 +1,10 @@
 # Sample .travis.yml for R projects
 
 
-language: R
+language: r
 sudo: required
 warnings_are_errors: true
+
+r_binary_packages:
+ - topicmodels
+ - rmpfr
