@@ -1,20 +1,18 @@
 ---
 title: "Select number of topics for LDA model"
 author: "Murzintcev Nikita"
-date: "`r Sys.Date()`"
-
+date: '`r Sys.Date()`'
 output:
   html_document:
-    toc: true
     theme: united
-    
-bibliography: references.bib
+    toc: yes
+  pdf_document:
+    highlight: zenburn
+    toc: yes
 csl: acm-sigchi-proceedings.csl
-
-vignette: >
-  %\VignetteIndexEntry{Select number of topics for LDA model}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+vignette: |
+  %\VignetteIndexEntry{Select number of topics for LDA model} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
