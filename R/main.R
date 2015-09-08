@@ -60,7 +60,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   if ("Griffiths2004" %in% metrics) {
     if (method == "VEM") {
       # memory allocation error
-      if (verbose) cat("\n'Griffiths2004' is incompatible with 'VEM' method, excluded.")
+      if (verbose) cat("'Griffiths2004' is incompatible with 'VEM' method, excluded.\n")
       metrics <- setdiff(metrics, "Griffiths2004")
     } else {
       # save log-likelihood
@@ -69,24 +69,24 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   }
 
   # fit models
-  if (verbose) cat("\nfit models...")
+  if (verbose) cat("fit models...")
   models <- parallel::mclapply(topics, mc.cores = mc.cores, FUN = function(x) {
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
-  if (verbose) cat(" done.")
+  if (verbose) cat(" done.\n")
 
   # calculate metrics
-  if (verbose) cat("\ncalculate metrics:")
+  if (verbose) cat("calculate metrics:\n")
   result <- data.frame(topics)
   for(m in metrics) {
-    if (verbose) cat(sprintf("\n  %s...", m))
+    if (verbose) cat(sprintf("  %s...", m))
     # does not work inside of package
     # f <- tryCatch(
     #   match.fun(m, descend = FALSE), # ldatuning::
     #   error = function(e) { cat(" unknown!") }
     # )
     if (! m %in% c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014")) {
-      cat(" unknown!")
+      cat(" unknown!\n")
     } else {
       result[m] <- switch(m,
         "Griffiths2004" = Griffiths2004(models, control),
@@ -95,7 +95,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
         "Deveaud2014"   = Deveaud2014(models),
         NaN
       )
-      if (verbose) cat(" done.")
+      if (verbose) cat(" done.\n")
     }
   }
 
@@ -134,7 +134,7 @@ CaoJuan2009 <- function(models) {
       x <- m1[pair[1], ]
       y <- m1[pair[2], ]
       # dist <- lsa::cosine(x, y)
-      dist <- crossprod(x, y)/sqrt(crossprod(x) * crossprod(y))
+      dist <- crossprod(x, y) / sqrt(crossprod(x) * crossprod(y))
       return(dist)
     })
     # metric
@@ -192,12 +192,12 @@ Deveaud2014 <- function(models) {
 #     m1   <- model@beta
 #     m1.e <- exp(model@beta)
 #     pairs  <- combn(nrow(m1), 2)
-#     jsd2 <- apply(pairs, 2, function(pair) {
+#     jsd <- apply(pairs, 2, function(pair) {
 #       x   <- m1[pair[1], ]
 #       y   <- m1[pair[2], ]
 #       x.e <- m1.e[pair[1], ]
 #       y.e <- m1.e[pair[2], ]
-#       jsd <- 0.5 * sum(x.e*(x-y)) + 0.5 * sum(y.e*(y-x))
+#       jsd <- ( sum(x.e*(x-y)) + sum(y.e*(y-x)) ) / 2
 #       return(jsd)
 #     })
 

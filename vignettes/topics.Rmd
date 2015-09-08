@@ -49,7 +49,7 @@ The most easy way is to calculate all metrics at once. All existing methods requ
 ```{r, eval=TRUE}
 result <- FindTopicsNumber(
   dtm,
-  topics = seq(from = 10, to = 50, by = 5),
+  topics = seq(from = 2, to = 15, by = 1),
   metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"),
   method = "Gibbs",
   control = list(seed = 77),
@@ -80,14 +80,14 @@ For easy analyze of the results can be used support function `FindTopicsNumber_p
 FindTopicsNumber_plot(result)
 ```
 
-More reliable results calculated on the whole dataset (about 10 hours on quad-core computer) looks like
+Results calculated on the whole dataset (about 10 hours on quad-core computer) looks like
 
 ```{r, fig.width=9, fig.height=5, echo=FALSE}
 result <- read.csv(file = "files/APress.csv", header = TRUE)
 FindTopicsNumber_plot(result[result$topics < 500, ])
 ```
 
-From this plot can be made conclusion that optimal number of topics is in range 90-120. Metric Deveaud2014 is not informative in this situation.
+From this plot can be made conclusion that optimal number of topics is in range 90-140. Metric Deveaud2014 is not informative in this situation.
 
 
 # References
