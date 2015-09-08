@@ -2,7 +2,7 @@
 ^\.Rproj\.user$
 
 todo\.txt
-vignettes\.pdf
+example\.pdf
 
 ^README\.Rmd$
 ^README-.*\.png$

@@ -21,4 +21,4 @@ result <- read.csv(file = "vignettes/files/APress.csv", header = TRUE)
 ldatuning::FindTopicsNumber_plot(result[result$topics < 500, ])
 ```
 
-For more complete explanation see [vignette](http://example.com).
+For more complete explanation see [vignette](example.pdf).
