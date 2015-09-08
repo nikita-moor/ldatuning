@@ -7,6 +7,8 @@ Version: 0.0.9000
 Date: 2015-09-06
 Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut", "cre"))
+URL:        https://github.com/nikita-moor/ldatuning
+BugReports: https://github.com/nikita-moor/ldatuning/issues
 License: BSD_2_clause + file LICENSE
 LazyData: TRUE
 Imports:
