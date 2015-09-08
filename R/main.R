@@ -4,7 +4,8 @@
 # 1. add conversion: TermDocumentMatrix > DocumentTermMatrix
 #    if (is(dtm, "TermDocumentMatrix")) dtm <- t(dtm)
 # 2. CaoJuan2009: check with lsa::cosine - http://stackoverflow.com/questions/2535234/find-cosine-similarity-in-r
-# 3. Deveaud2014: parallel
+# 4. Replace `mclapply` with cross-platform analog, see details
+#    http://stackoverflow.com/questions/18588896/custom-package-using-parallel-or-doparallel-for-multiple-os-as-a-cran-package
 
 
 #' FindTopicsNumber

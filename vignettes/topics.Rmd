@@ -38,7 +38,9 @@ data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
 ```
 
-The most easy way is to calculate all metrics at once. All existing methods require to train multiple LDA models to select one with the best performance. It is computation intensive procedure and `ldatuning` use parallelism, so do not forget to point correct number of CPU cores in `mc.core` parameter to archive the best performance. All standard LDA methods and parameters from `topimodels` package can be set with parameters `method` and `control`.
+The most easy way is to calculate all metrics at once. All existing methods require to train multiple LDA models to select one with the best performance. It is computation intensive procedure and `ldatuning` use parallelism, so do not forget to point correct number of CPU cores in `mc.core` parameter to archive the best performance. This version of package uses `mclapply` which doesn't actually run in parallel on Windows (reverts to serial evaluation), we are going to use `doParallel` or some other cross-platform method in future version.
+
+All standard LDA methods and parameters from `topimodels` package can be set with `method` and `control`.
 
 ```{r, eval=TRUE}
 result <- FindTopicsNumber(
