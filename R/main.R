@@ -31,17 +31,6 @@
 #'   corresponding values of metric (higher is better). Can be directly used by
 #'   \code{\link{FindTopicsNumber_plot}} to draw a plot.
 #'
-#' @section References:
-#'
-#'   Griffiths, T. L. & Steyvers, M. Finding scientific topics (2004). In
-#'   \emph{Proceedings of the National Academy of Sciences}, National Academy of
-#'   Sciences, 101, 5228-5235. DOI:
-#'   \href{http://dx.doi.org/10.1073/pnas.0307752101}{10.1073/pnas.0307752101}.
-#'
-#'   Ponweiser, M. Latent Dirichlet Allocation in R (2012). Diploma Thesis.
-#'   Institute for Statistics and Mathematics, University of Economics and
-#'   Business, Vienna. URL: \url{http://epub.wu.ac.at/id/eprint/3558}.
-#'
 #' @examples
 #' library(topicmodels)
 #' data("AssociatedPress", package="topicmodels")

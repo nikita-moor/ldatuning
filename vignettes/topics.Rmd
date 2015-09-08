@@ -9,7 +9,9 @@ output:
 csl: acm-sigchi-proceedings.csl
 bibliography: references.bib
 vignette: |
-  %\VignetteIndexEntry{Select number of topics for LDA model} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Number of topics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}

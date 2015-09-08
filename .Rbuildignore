@@ -1,9 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 
-todo\.txt
-example\.pdf
+^todo\.txt$
 vignettes/rsconnect/.*
 ^README\.Rmd$
 ^README-.*\.png$
+^README\.md$
 ^\.travis\.yml$
