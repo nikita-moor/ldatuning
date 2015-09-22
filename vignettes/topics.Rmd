@@ -20,9 +20,15 @@ vignette: |
 # knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-Install package from github (only once for the first time). Remember that this is first public version of the package and it can contain errors.
+Package can be installed from CRAN
+```{r, eval=FALSE}
+install.packages("ldatuning")
+```
+
+or downloaded from the GitHub repository (developer version).
 
 ```{r, eval=FALSE}
+install.packages("devtools")
 devtools::install_github("nikita-moor/ldatuning")
 ```
 

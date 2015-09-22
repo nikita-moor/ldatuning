@@ -7,3 +7,4 @@ vignettes/rsconnect/.*
 ^README-.*\.png$
 ^README\.md$
 ^\.travis\.yml$
+^cran-comments\.md$
