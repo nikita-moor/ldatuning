@@ -1,8 +1,5 @@
 #' ldatuning: Tuning of the LDA models parameters
 #'
-#' For this first version only two metrics are implemented:
-#' arun2010, griffiths2004.
-#'
 #' @docType package
 #' @name ldatuning
 NULL

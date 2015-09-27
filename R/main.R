@@ -100,14 +100,14 @@ Griffiths2004 <- function(models, control) {
     utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
     # model@logLiks[-(1 : (control$burnin/control$keep))]
   })
-  # harmonic means
+  # harmonic means for every model
   metrics <- sapply(logLiks, function(x) {
-    # code is a little tricky, see explanation in Ponweiser2012
+    # code is a little tricky, see explanation in [Ponweiser2012 p. 36]
     # ToDo: add variant without "Rmpfr"
     llMed <- stats::median(x)
-    metric <- as.double( llMed - log( Rmpfr::mean( exp(
-      -Rmpfr::mpfr(x, prec=2000L) + llMed
-    ))))
+    metric <- as.double(
+      llMed - log( Rmpfr::mean( exp( -Rmpfr::mpfr(x, prec=2000L) + llMed )))
+    )
     return(metric)
   })
   return(metrics)
