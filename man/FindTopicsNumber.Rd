@@ -24,7 +24,7 @@ term-frequency weighting or an object coercible to a
 object of class "\linkS4class{LDAcontrol}".}
 
 \item{mc.cores}{Integer; The number of CPU cores to processes models
-simultaneously (using \code{mclapply}).}
+simultaneously.}
 
 \item{verbose}{If false (default), supress all warnings and additional
   information.}

@@ -6,6 +6,7 @@
 # 2. CaoJuan2009: check with lsa::cosine - http://stackoverflow.com/questions/2535234/find-cosine-similarity-in-r
 # 4. Replace `mclapply` with cross-platform analog, see details
 #    http://stackoverflow.com/questions/18588896/custom-package-using-parallel-or-doparallel-for-multiple-os-as-a-cran-package
+# 5. parallel::detectCores()
 
 
 #' FindTopicsNumber
@@ -23,7 +24,7 @@
 #' @param control A named list of the control parameters for estimation or an
 #'   object of class "\linkS4class{LDAcontrol}".
 #' @param mc.cores Integer; The number of CPU cores to processes models
-#'   simultaneously (using \code{mclapply}).
+#'   simultaneously.
 #' @param verbose If false (default), supress all warnings and additional
 #'   information.
 #'
@@ -60,9 +61,14 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 
   # fit models
   if (verbose) cat("fit models...")
-  models <- parallel::mclapply(topics, mc.cores = mc.cores, FUN = function(x) {
+  cl <- parallel::makeCluster(mc.cores)
+  parallel::setDefaultCluster(cl)
+  parallel::clusterExport(varlist = c("dtm", "method", "control"),
+                          envir = environment())
+  models <- parallel::parLapply(X = topics, fun = function(x) {
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
+  parallel::stopCluster(cl)
   if (verbose) cat(" done.\n")
 
   # calculate metrics
@@ -70,11 +76,6 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   result <- data.frame(topics)
   for(m in metrics) {
     if (verbose) cat(sprintf("  %s...", m))
-    # does not work inside of package
-    # f <- tryCatch(
-    #   match.fun(m, descend = FALSE), # ldatuning::
-    #   error = function(e) { cat(" unknown!") }
-    # )
     if (! m %in% c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014")) {
       cat(" unknown!\n")
     } else {
