@@ -1,6 +1,6 @@
 Package: ldatuning
 Type: Package
-Title: Tuning of the Latent Dirichlet allocation (LDA) models prameters
+Title: Tuning of the Latent Dirichlet Allocation (LDA) Models Prameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
 Version: 0.1.9000
