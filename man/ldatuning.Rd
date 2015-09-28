@@ -6,7 +6,6 @@
 \alias{ldatuning-package}
 \title{ldatuning: Tuning of the LDA models parameters}
 \description{
-For this first version only two metrics are implemented:
-arun2010, griffiths2004.
+ldatuning: Tuning of the LDA models parameters
 }
 

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 [![Travis-CI Build Status](https://travis-ci.org/nikita-moor/ldatuning.svg?branch=master)](https://travis-ci.org/nikita-moor/ldatuning)
 
-This package use some metrics to find optimal number of topics for Latent Dirichlet allocation (LDA) models.
+This package uses some metrics to find optimal number of topics for Latent Dirichlet allocation (LDA) models.
 
 ```{r, fig.width=9, fig.height=5, echo=FALSE}
 result <- read.csv(file = "vignettes/files/APress.csv", header = TRUE)
