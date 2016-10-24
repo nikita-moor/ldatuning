@@ -39,10 +39,13 @@ Calculates different metrics to estimate the most preferable number of topics
 for LDA model.
 }
 \examples{
+\dontrun{
+
 library(topicmodels)
 data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
 FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 1L)
+}
 
 }
 

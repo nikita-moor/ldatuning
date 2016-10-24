@@ -32,10 +32,13 @@
 #'   \code{\link{FindTopicsNumber_plot}} to draw a plot.
 #'
 #' @examples
+#' \dontrun{
+#'
 #' library(topicmodels)
 #' data("AssociatedPress", package="topicmodels")
 #' dtm <- AssociatedPress[1:10, ]
 #' FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 1L)
+#' }
 #'
 #' @export
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
@@ -208,6 +211,8 @@ Deveaud2014 <- function(models) {
 #'   are values of metrics.
 #'
 #' @examples
+#' \dontrun{
+#'
 #' library(topicmodels)
 #' data("AssociatedPress", package="topicmodels")
 #' dtm <- AssociatedPress[1:10, ]
@@ -215,6 +220,7 @@ Deveaud2014 <- function(models) {
 #'   metrics = c("Arun2010", "CaoJuan2009", "Griffiths2004")
 #' )
 #' FindTopicsNumber_plot(optimal.topics)
+#' }
 #'
 #' @export
 #' @import ggplot2

@@ -15,6 +15,8 @@ Support function to analyze optimal topic number. Use output of the
 \code{\link{FindTopicsNumber}} function.
 }
 \examples{
+\dontrun{
+
 library(topicmodels)
 data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
@@ -22,6 +24,7 @@ optimal.topics <- FindTopicsNumber(dtm, topics = 2:10,
   metrics = c("Arun2010", "CaoJuan2009", "Griffiths2004")
 )
 FindTopicsNumber_plot(optimal.topics)
+}
 
 }
 
