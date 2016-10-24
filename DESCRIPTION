@@ -1,10 +1,10 @@
 Package: ldatuning
 Type: Package
-Title: Tuning of the Latent Dirichlet Allocation (LDA) Models Prameters
+Title: Tuning of the Latent Dirichlet Allocation Models Parameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
-Version: 0.2
-Date: 2015-09-16
+Version: 0.2.0
+Date: 2016-10-24
 Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut", "cre"))
 URL: https://github.com/nikita-moor/ldatuning
