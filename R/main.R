@@ -4,9 +4,8 @@
 # 1. add conversion: TermDocumentMatrix > DocumentTermMatrix
 #    if (is(dtm, "TermDocumentMatrix")) dtm <- t(dtm)
 # 2. CaoJuan2009: check with lsa::cosine - http://stackoverflow.com/questions/2535234/find-cosine-similarity-in-r
-# 4. Replace `mclapply` with cross-platform analog, see details
-#    http://stackoverflow.com/questions/18588896/custom-package-using-parallel-or-doparallel-for-multiple-os-as-a-cran-package
 # 5. parallel::detectCores()
+# 6. desc-sorted topics list for optimal parallelization
 
 
 #' FindTopicsNumber
@@ -29,7 +28,7 @@
 #'   information.
 #'
 #' @return Data-frame with one or more metrics.  numbers of topics and
-#'   corresponding values of metric (higher is better). Can be directly used by
+#'   corresponding values of metric. Can be directly used by
 #'   \code{\link{FindTopicsNumber_plot}} to draw a plot.
 #'
 #' @examples
@@ -138,7 +137,7 @@ CaoJuan2009 <- function(models) {
 #' @keywords internal
 Arun2010 <- function(models, dtm) {
   # length of documents (count of words)
-  len <- slam::row_sums(dtm, dim=1)
+  len <- slam::row_sums(dtm)
   # evaluate metrics
   metrics <- sapply(models, FUN = function(model) {
     # matrix M1 topic-word
@@ -148,7 +147,7 @@ Arun2010 <- function(models, dtm) {
     # matrix M2 document-topic
     m2   <- model@gamma   # rowSums(m2) == 1
     cm2  <- len %*% m2    # crossprod(len, m2)
-    norm <- norm(as.matrix(len), type="F")
+    norm <- norm(as.matrix(len), type="m")
     cm2  <- as.vector(cm2 / norm)
     # symmetric Kullback-Leibler divergence
     divergence <- sum(cm1*log(cm1/cm2)) + sum(cm2*log(cm2/cm1))
