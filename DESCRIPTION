@@ -3,11 +3,11 @@ Type: Package
 Title: Tuning of the Latent Dirichlet Allocation (LDA) Models Prameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
-Version: 0.1.9000
+Version: 0.2
 Date: 2015-09-16
 Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut", "cre"))
-URL:        https://github.com/nikita-moor/ldatuning
+URL: https://github.com/nikita-moor/ldatuning
 BugReports: https://github.com/nikita-moor/ldatuning/issues
 License: BSD_2_clause + file LICENSE
 LazyData: TRUE
@@ -23,3 +23,4 @@ Imports:
 Suggests:
     knitr
 VignetteBuilder: knitr
+RoxygenNote: 5.0.1

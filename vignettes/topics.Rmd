@@ -32,7 +32,7 @@ install.packages("devtools")
 devtools::install_github("nikita-moor/ldatuning")
 ```
 
-Package `ldatuning` realize 4 metrics to select perfect number of topics for LDA model.
+Package `ldatuning` realizes 4 metrics to select perfect number of topics for LDA model.
 
 ```{r, message=FALSE}
 library("ldatuning")
@@ -46,7 +46,7 @@ data("AssociatedPress", package="topicmodels")
 dtm <- AssociatedPress[1:10, ]
 ```
 
-The most easy way is to calculate all metrics at once. All existing methods require to train multiple LDA models to select one with the best performance. It is computation intensive procedure and `ldatuning` use parallelism, so do not forget to point correct number of CPU cores in `mc.core` parameter to archive the best performance. This version of package uses `mclapply` which doesn't actually run in parallel on Windows (reverts to serial evaluation), we are going to use `doParallel` or some other cross-platform method in future version.
+The most easy way is to calculate all metrics at once. All existing methods require to train multiple LDA models to select one with the best performance. It is computation intensive procedure and `ldatuning` uses parallelism, so do not forget to point correct number of CPU cores in `mc.core` parameter to archive the best performance.
 
 All standard LDA methods and parameters from `topimodels` package can be set with `method` and `control`.
 
@@ -78,13 +78,13 @@ Simple approach in analyze of metrics is to find extremum, more complete descrip
     + Deveaud2014 [@Deveaud2014]
     + Griffiths2004 [@Griffiths2004; @Ponweiser2012]
 
-For easy analyze of the results can be used support function `FindTopicsNumber_plot`
+Support function `FindTopicsNumber_plot` can be used for easy analyze of the results
 
 ```{r, fig.width=6, fig.height=3, results="hide"}
 FindTopicsNumber_plot(result)
 ```
 
-Results calculated on the whole dataset (about 10 hours on quad-core computer) looks like
+Results calculated on the whole dataset (about 10 hours on quad-core computer) look like
 
 ```{r, fig.width=9, fig.height=5, echo=FALSE}
 result <- read.csv(file = "files/APress.csv", header = TRUE)
