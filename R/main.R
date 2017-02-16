@@ -41,6 +41,7 @@
 #' }
 #'
 #' @export
+#' @import topicmodels
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
@@ -68,7 +69,8 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
   models <- parallel::parLapply(X = topics, fun = function(x) {
-    topicmodels::LDA(dtm, k = x, method = method, control = control)
+    # topicmodels::LDA(dtm, k = x, method = method, control = control)
+    LDA(dtm, k = x, method = method, control = control)
   })
   parallel::stopCluster(cl)
   if (verbose) cat(" done.\n")

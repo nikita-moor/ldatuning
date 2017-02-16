@@ -3,3 +3,4 @@
 export(FindTopicsNumber)
 export(FindTopicsNumber_plot)
 import(ggplot2)
+import(topicmodels)
