@@ -1,4 +1,4 @@
-# Copyright (c) 2015  Nikita Murzintcev
+# Copyright (c) 2017  Nikita Murzintcev
 
 # ToDo:
 # 1. add conversion: TermDocumentMatrix > DocumentTermMatrix
@@ -26,6 +26,10 @@
 #'   simultaneously.
 #' @param verbose If false (default), supress all warnings and additional
 #'   information.
+#' @param libpath Path to R packages (use only if your R installation can't find
+#'   'topicmodels' package, [issue #3](https://github.com/nikita-moor/ldatuning/issues/3).
+#'   For example: "C:/Program Files/R/R-2.15.2/library" (Windows),
+#'                "/home/user/R/x86_64-pc-linux-gnu-library/3.2" (Linux)
 #'
 #' @return Data-frame with one or more metrics.  numbers of topics and
 #'   corresponding values of metric. Can be directly used by
@@ -41,10 +45,12 @@
 #' }
 #'
 #' @export
+#' @import topicmodels
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
-                             mc.cores = 1L, verbose = FALSE) {
+                             mc.cores = 1L, verbose = FALSE,
+                             libpath = NULL) {
   # check parameters
   if (length(topics[topics < 2]) != 0) {
     if (verbose) cat("warning: topics count can't to be less than 2, incorrect values was removed.\n")
@@ -68,6 +74,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
   models <- parallel::parLapply(X = topics, fun = function(x) {
+    if (is.null(libpath) == FALSE) { .libPaths(libpath) }
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
   parallel::stopCluster(cl)

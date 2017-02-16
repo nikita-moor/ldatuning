@@ -6,7 +6,7 @@
 \usage{
 FindTopicsNumber(dtm, topics = seq(10, 40, by = 10),
   metrics = "Griffiths2004", method = "Gibbs", control = list(),
-  mc.cores = 1L, verbose = FALSE)
+  mc.cores = 1L, verbose = FALSE, libpath = NULL)
 }
 \arguments{
 \item{dtm}{An object of class "\link[tm]{DocumentTermMatrix}" with
@@ -28,6 +28,11 @@ simultaneously.}
 
 \item{verbose}{If false (default), supress all warnings and additional
 information.}
+
+\item{libpath}{Path to R packages (use only if your R installation can't find
+'topicmodels' package, [issue #3](https://github.com/nikita-moor/ldatuning/issues/3).
+For example: "C:/Program Files/R/R-2.15.2/library" (Windows),
+             "/home/user/R/x86_64-pc-linux-gnu-library/3.2" (Linux)}
 }
 \value{
 Data-frame with one or more metrics.  numbers of topics and
