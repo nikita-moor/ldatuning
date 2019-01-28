@@ -13,7 +13,7 @@ FindTopicsNumber(dtm, topics = seq(10, 40, by = 10),
 term-frequency weighting or an object coercible to a
 "\link[slam]{simple_triplet_matrix}" with integer entries.}
 
-\item{topics}{Vvector with number of topics to compare different models.}
+\item{topics}{Vector with number of topics to compare different models.}
 
 \item{metrics}{String or vector of possible metrics: "Griffiths2004",
 "CaoJuan2009", "Arun2010", "Deveaud2014".}
