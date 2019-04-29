@@ -14,16 +14,16 @@
 #' @param dtm An object of class "\link[tm]{DocumentTermMatrix}" with
 #'   term-frequency weighting or an object coercible to a
 #'   "\link[slam]{simple_triplet_matrix}" with integer entries.
-#' @param topics Vvector with number of topics to compare different models.
+#' @param topics Vector with number of topics to compare different models.
 #' @param metrics String or vector of possible metrics: "Griffiths2004",
 #'   "CaoJuan2009", "Arun2010", "Deveaud2014".
 #' @param method The method to be used for fitting; see \link[topicmodels]{LDA}.
 #' @param control A named list of the control parameters for estimation or an
 #'   object of class "\linkS4class{LDAcontrol}".
-#' @param mc.cores Integer or cluster; the number of CPU cores to processes models
+#' @param mc.cores NA, integer or, cluster; the number of CPU cores to process models
 #'   simultaneously. If an integer, create a cluster on the local machine. If a
 #'   cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
-#'   auto-detection of number of cores.
+#'   NA, which triggers auto-detection of number of cores on the local machine.
 #' @param verbose If false (default), supress all warnings and additional
 #'   information.
 #' @param libpath Path to R packages (use only if your R installation can't find
