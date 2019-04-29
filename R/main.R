@@ -75,7 +75,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   # Parallel setup
   if (any(class(mc.cores) == "cluster")) {
     cl <- mc.cores
-  } else if (class(mc.cores == "integer")) {
+  } else if (isTRUE(class(mc.cores) == "integer")) {
     cl <- parallel::makeCluster(mc.cores)
   } else {
     cl <- parallel::makeCluster(parallel::detectCores())
