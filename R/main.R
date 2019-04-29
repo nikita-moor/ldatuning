@@ -4,8 +4,6 @@
 # 1. add conversion: TermDocumentMatrix > DocumentTermMatrix
 #    if (is(dtm, "TermDocumentMatrix")) dtm <- t(dtm)
 # 2. CaoJuan2009: check with lsa::cosine - http://stackoverflow.com/questions/2535234/find-cosine-similarity-in-r
-# 5. parallel::detectCores()
-# 6. desc-sorted topics list for optimal parallelization
 
 
 #' FindTopicsNumber
@@ -22,8 +20,10 @@
 #' @param method The method to be used for fitting; see \link[topicmodels]{LDA}.
 #' @param control A named list of the control parameters for estimation or an
 #'   object of class "\linkS4class{LDAcontrol}".
-#' @param mc.cores Integer; The number of CPU cores to processes models
-#'   simultaneously.
+#' @param mc.cores Integer or cluster; the number of CPU cores to processes models
+#'   simultaneously. If an integer, create a cluster on the local machine. If a
+#'   cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
+#'   auto-detection of number of cores.
 #' @param verbose If false (default), supress all warnings and additional
 #'   information.
 #' @param libpath Path to R packages (use only if your R installation can't find
@@ -49,13 +49,15 @@
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
-                             mc.cores = 1L, verbose = FALSE,
+                             mc.cores = NA, verbose = FALSE,
                              libpath = NULL) {
   # check parameters
   if (length(topics[topics < 2]) != 0) {
     if (verbose) cat("warning: topics count can't to be less than 2, incorrect values was removed.\n")
     topics <- topics[topics >= 2]
   }
+  topics <- sort(topics, decreasing = TRUE)
+
   if ("Griffiths2004" %in% metrics) {
     if (method == "VEM") {
       # memory allocation error
@@ -69,7 +71,15 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 
   # fit models
   if (verbose) cat("fit models...")
-  cl <- parallel::makeCluster(mc.cores)
+
+  # Parallel setup
+  if (any(class(mc.cores) == "cluster")) {
+    cl <- mc.cores
+  } else if (class(mc.cores == "integer")) {
+    cl <- parallel::makeCluster(mc.cores)
+  } else {
+    cl <- parallel::makeCluster(parallel::detectCores())
+  }
   parallel::setDefaultCluster(cl)
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
@@ -77,7 +87,9 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
     if (is.null(libpath) == FALSE) { .libPaths(libpath) }
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
-  parallel::stopCluster(cl)
+  if (! any(class(mc.cores) == "cluster")) {
+    parallel::stopCluster(cl)
+  }
   if (verbose) cat(" done.\n")
 
   # calculate metrics
