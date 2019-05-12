@@ -6,7 +6,7 @@
 \usage{
 FindTopicsNumber(dtm, topics = seq(10, 40, by = 10),
   metrics = "Griffiths2004", method = "Gibbs", control = list(),
-  mc.cores = 1L, verbose = FALSE, libpath = NULL)
+  mc.cores = NA, verbose = FALSE, libpath = NULL)
 }
 \arguments{
 \item{dtm}{An object of class "\link[tm]{DocumentTermMatrix}" with
@@ -23,8 +23,10 @@ term-frequency weighting or an object coercible to a
 \item{control}{A named list of the control parameters for estimation or an
 object of class "\linkS4class{LDAcontrol}".}
 
-\item{mc.cores}{Integer; The number of CPU cores to processes models
-simultaneously.}
+\item{mc.cores}{NA, integer or, cluster; the number of CPU cores to process models
+simultaneously. If an integer, create a cluster on the local machine. If a
+cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
+NA, which triggers auto-detection of number of cores on the local machine.}
 
 \item{verbose}{If false (default), supress all warnings and additional
 information.}
@@ -53,4 +55,3 @@ FindTopicsNumber(dtm, topics = 2:10, metrics = "Arun2010", mc.cores = 1L)
 }
 
 }
-

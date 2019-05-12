@@ -10,4 +10,3 @@ Deveaud2014(models)
 Deveaud2014
 }
 \keyword{internal}
-
