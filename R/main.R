@@ -63,9 +63,6 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
       # memory allocation error
       if (verbose) cat("'Griffiths2004' is incompatible with 'VEM' method, excluded.\n")
       metrics <- setdiff(metrics, "Griffiths2004")
-    } else {
-      # save log-likelihood
-      if (!"keep" %in% names(control)) control <- c(control, keep = 50)
     }
   }
 
@@ -114,10 +111,23 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   return(result)
 }
 
-#' @keywords internal
-Griffiths2004 <- function(models, control) {
+#' Griffiths2004
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @param control A named list of the control parameters for estimation or an
+#'   object of class "\linkS4class{LDAcontrol}".
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
+Griffiths2004 <- function(models, control = list(burnin = 0, keep = 50)) {
+  # Below defaults also moved to function declaration
   # log-likelihoods (remove first burning stage)
   burnin  <- ifelse("burnin" %in% names(control), control$burnin, 0)
+  # save log-likelihood
+  if (!"keep" %in% names(control)) control <- c(control, keep = 50)
+
   logLiks <- lapply(models, function(model) {
     utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
     # model@logLiks[-(1 : (control$burnin/control$keep))]
@@ -135,7 +145,14 @@ Griffiths2004 <- function(models, control) {
   return(metrics)
 }
 
-#' @keywords internal
+#' CaoJuan2009
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 CaoJuan2009 <- function(models) {
   metrics <- sapply(models, function(model) {
     # topic-word matrix
@@ -156,7 +173,17 @@ CaoJuan2009 <- function(models) {
   return(metrics)
 }
 
-#' @keywords internal
+#' Arun2010
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @param dtm An object of class "\link[tm]{DocumentTermMatrix}" with
+#'   term-frequency weighting or an object coercible to a
+#'   "\link[slam]{simple_triplet_matrix}" with integer entries.
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 Arun2010 <- function(models, dtm) {
   # length of documents (count of words)
   len <- slam::row_sums(dtm)
@@ -179,7 +206,13 @@ Arun2010 <- function(models, dtm) {
 }
 
 #' Deveaud2014
-#' @keywords internal
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 Deveaud2014 <- function(models) {
   metrics <- sapply(models, function(model) {
     ### original version

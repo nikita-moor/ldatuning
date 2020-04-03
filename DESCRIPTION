@@ -3,8 +3,8 @@ Type: Package
 Title: Tuning of the Latent Dirichlet Allocation Models Parameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
-Version: 0.2.2
-Date: 2017-05-12
+Version: 0.2.3
+Date: 2020-04-02
 Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut", "cre"))
 URL: https://github.com/nikita-moor/ldatuning
@@ -24,4 +24,4 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0

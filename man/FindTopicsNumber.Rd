@@ -4,9 +4,16 @@
 \alias{FindTopicsNumber}
 \title{FindTopicsNumber}
 \usage{
-FindTopicsNumber(dtm, topics = seq(10, 40, by = 10),
-  metrics = "Griffiths2004", method = "Gibbs", control = list(),
-  mc.cores = NA, verbose = FALSE, libpath = NULL)
+FindTopicsNumber(
+  dtm,
+  topics = seq(10, 40, by = 10),
+  metrics = "Griffiths2004",
+  method = "Gibbs",
+  control = list(),
+  mc.cores = NA,
+  verbose = FALSE,
+  libpath = NULL
+)
 }
 \arguments{
 \item{dtm}{An object of class "\link[tm]{DocumentTermMatrix}" with

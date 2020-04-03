@@ -3,8 +3,4 @@
 \docType{package}
 \name{ldatuning}
 \alias{ldatuning}
-\alias{ldatuning-package}
 \title{ldatuning: Tuning of the LDA models parameters}
-\description{
-ldatuning: Tuning of the LDA models parameters
-}
