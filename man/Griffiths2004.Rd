@@ -16,5 +16,7 @@ object of class "\linkS4class{LDAcontrol}".}
 A scalar LDA model score
 }
 \description{
-Implement scoring algorithm
+Implement scoring algorithm. In order to use this algorithm, the LDA model MUST
+be generated using the keep control parameter >0 (defaults to 50) so that the
+logLiks vector is retained.
 }

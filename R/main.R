@@ -129,7 +129,9 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 
 #' Griffiths2004
 #'
-#' Implement scoring algorithm
+#' Implement scoring algorithm. In order to use this algorithm, the LDA model MUST
+#' be generated using the keep control parameter >0 (defaults to 50) so that the
+#' logLiks vector is retained.
 #' @param models An object of class "\link[topicmodels]{LDA}
 #' @param control A named list of the control parameters for estimation or an
 #'   object of class "\linkS4class{LDAcontrol}".
@@ -138,14 +140,20 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 #' @export
 #'
 Griffiths2004 <- function(models, control) {
-  # Below defaults also moved to function declaration
-  # log-likelihoods (remove first burning stage)
+  # log-likelihoods (remove first burnin stage)
   burnin  <- ifelse("burnin" %in% names(control), control$burnin, 0)
 
   logLiks <- lapply(models, function(model) {
-    utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
-    # model@logLiks[-(1 : (control$burnin/control$keep))]
+    # Check to make sure logLiks were kept; if not, value is NaN
+    if (length(model@logLiks) == 0) {
+      message("No logLiks were kept, which is required to use this scoring algorithm. Please regenerate the model using the keep control parameter set to a reasonable value (default = 50).")
+      NaN
+    } else {
+      utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
+      # model@logLiks[-(1 : (control$burnin/control$keep))]
+    }
   })
+
   # harmonic means for every model
   metrics <- sapply(logLiks, function(x) {
     # code is a little tricky, see explanation in [Ponweiser2012 p. 36]
