@@ -11,6 +11,7 @@ FindTopicsNumber(
   method = "Gibbs",
   control = list(),
   mc.cores = NA,
+  return_models = FALSE,
   verbose = FALSE,
   libpath = NULL
 )
@@ -34,6 +35,9 @@ object of class "\linkS4class{LDAcontrol}".}
 simultaneously. If an integer, create a cluster on the local machine. If a
 cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
 NA, which triggers auto-detection of number of cores on the local machine.}
+
+\item{return_models}{Whether or not to return the model objects of class
+"\link[topicmodels]{LDA}. Defaults to false. Setting to true requires the tibble package.}
 
 \item{verbose}{If false (default), supress all warnings and additional
 information.}

@@ -22,6 +22,7 @@ Imports:
     grid
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
+    tibble
 VignetteBuilder: knitr
 RoxygenNote: 7.1.0

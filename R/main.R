@@ -24,6 +24,8 @@
 #'   simultaneously. If an integer, create a cluster on the local machine. If a
 #'   cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
 #'   NA, which triggers auto-detection of number of cores on the local machine.
+#' @param return_models Whether or not to return the model objects of class
+#'   "\link[topicmodels]{LDA}. Defaults to false. Setting to true requires the tibble package.
 #' @param verbose If false (default), supress all warnings and additional
 #'   information.
 #' @param libpath Path to R packages (use only if your R installation can't find
@@ -49,8 +51,8 @@
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
-                             mc.cores = NA, verbose = FALSE,
-                             libpath = NULL) {
+                             mc.cores = NA, return_models = FALSE,
+                             verbose = FALSE, libpath = NULL) {
   # check parameters
   if (length(topics[topics < 2]) != 0) {
     if (verbose) cat("warning: topics count can't to be less than 2, incorrect values was removed.\n")
@@ -63,6 +65,9 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
       # memory allocation error
       if (verbose) cat("'Griffiths2004' is incompatible with 'VEM' method, excluded.\n")
       metrics <- setdiff(metrics, "Griffiths2004")
+    } else {
+      # save log-likelihood when generating model
+      if (!"keep" %in% names(control)) control <- c(control, keep = 50)
     }
   }
 
@@ -81,7 +86,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
   models <- parallel::parLapply(X = topics, fun = function(x) {
-    if (is.null(libpath) == FALSE) { .libPaths(libpath) }
+   if (is.null(libpath) == FALSE) { .libPaths(libpath) }
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
   if (! any(class(mc.cores) == "cluster")) {
@@ -91,7 +96,18 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 
   # calculate metrics
   if (verbose) cat("calculate metrics:\n")
-  result <- data.frame(topics)
+
+  if (return_models &
+      requireNamespace("tibble", quietly = TRUE)
+  ) {
+    result <- cbind(topics, tibble::enframe(models, value = "LDA_model"))
+    result$name <- NULL
+  } else {
+    if (return_models) {
+      message("The tibble package is required for returning models. Returning results only.")
+    }
+    result <- data.frame(topics)
+  }
   for(m in metrics) {
     if (verbose) cat(sprintf("  %s...", m))
     if (! m %in% c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014")) {
@@ -121,12 +137,10 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 #'
 #' @export
 #'
-Griffiths2004 <- function(models, control = list(burnin = 0, keep = 50)) {
+Griffiths2004 <- function(models, control) {
   # Below defaults also moved to function declaration
   # log-likelihoods (remove first burning stage)
   burnin  <- ifelse("burnin" %in% names(control), control$burnin, 0)
-  # save log-likelihood
-  if (!"keep" %in% names(control)) control <- c(control, keep = 50)
 
   logLiks <- lapply(models, function(model) {
     utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)

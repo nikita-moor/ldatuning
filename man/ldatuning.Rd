@@ -4,3 +4,8 @@
 \name{ldatuning}
 \alias{ldatuning}
 \title{ldatuning: Tuning of the LDA models parameters}
+\description{
+A package for identifying the number of topics in a text corpus
+by generating LDA models, tuning LDA model parameters, and scoring model
+results.
+}
