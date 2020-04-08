@@ -26,7 +26,7 @@
 #'   NA, which triggers auto-detection of number of cores on the local machine.
 #' @param return_models Whether or not to return the model objects of class
 #'   "\link[topicmodels]{LDA}. Defaults to false. Setting to true requires the tibble package.
-#' @param verbose If false (default), supress all warnings and additional
+#' @param verbose If false (default), suppress all warnings and additional
 #'   information.
 #' @param libpath Path to R packages (use only if your R installation can't find
 #'   'topicmodels' package, [issue #3](https://github.com/nikita-moor/ldatuning/issues/3).

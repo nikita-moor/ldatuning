@@ -15,7 +15,11 @@ This is a resubmission. In this version:
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There was 1 NOTE concerning the change in maintainer. 
+There was 1 NOTE concerning the change in maintainer. I have requested that the
+previous maintainer email the CRAN submission team. Her request for me to take
+over maintenance is also documented in the Github repository 
+[nikita-moor/ldatuning](https://github.com/nikita-moor/ldatuning/pull/15) in 
+connection with pull request #15.
 
 
 ## Downstream dependencies
