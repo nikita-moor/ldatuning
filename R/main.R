@@ -24,7 +24,9 @@
 #'   simultaneously. If an integer, create a cluster on the local machine. If a
 #'   cluster, use but don't destroy it (allows multiple-node clusters). Defaults to
 #'   NA, which triggers auto-detection of number of cores on the local machine.
-#' @param verbose If false (default), supress all warnings and additional
+#' @param return_models Whether or not to return the model objects of class
+#'   "\link[topicmodels]{LDA}. Defaults to false. Setting to true requires the tibble package.
+#' @param verbose If false (default), suppress all warnings and additional
 #'   information.
 #' @param libpath Path to R packages (use only if your R installation can't find
 #'   'topicmodels' package, [issue #3](https://github.com/nikita-moor/ldatuning/issues/3).
@@ -49,8 +51,8 @@
 FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
                              metrics = "Griffiths2004",
                              method = "Gibbs", control = list(),
-                             mc.cores = NA, verbose = FALSE,
-                             libpath = NULL) {
+                             mc.cores = NA, return_models = FALSE,
+                             verbose = FALSE, libpath = NULL) {
   # check parameters
   if (length(topics[topics < 2]) != 0) {
     if (verbose) cat("warning: topics count can't to be less than 2, incorrect values was removed.\n")
@@ -64,7 +66,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
       if (verbose) cat("'Griffiths2004' is incompatible with 'VEM' method, excluded.\n")
       metrics <- setdiff(metrics, "Griffiths2004")
     } else {
-      # save log-likelihood
+      # save log-likelihood when generating model
       if (!"keep" %in% names(control)) control <- c(control, keep = 50)
     }
   }
@@ -84,7 +86,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
   models <- parallel::parLapply(cl = cl, X = topics, fun = function(x) {
-    if (is.null(libpath) == FALSE) { .libPaths(libpath) }
+  if (is.null(libpath) == FALSE) { .libPaths(libpath) }
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
   if (! any(class(mc.cores) == "cluster")) {
@@ -94,7 +96,18 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
 
   # calculate metrics
   if (verbose) cat("calculate metrics:\n")
-  result <- data.frame(topics)
+
+  if (return_models &
+      requireNamespace("tibble", quietly = TRUE)
+  ) {
+    result <- cbind(topics, tibble::enframe(models, value = "LDA_model"))
+    result$name <- NULL
+  } else {
+    if (return_models) {
+      message("The tibble package is required for returning models. Returning results only.")
+    }
+    result <- data.frame(topics)
+  }
   for(m in metrics) {
     if (verbose) cat(sprintf("  %s...", m))
     if (! m %in% c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014")) {
@@ -114,14 +127,33 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   return(result)
 }
 
-#' @keywords internal
+#' Griffiths2004
+#'
+#' Implement scoring algorithm. In order to use this algorithm, the LDA model MUST
+#' be generated using the keep control parameter >0 (defaults to 50) so that the
+#' logLiks vector is retained.
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @param control A named list of the control parameters for estimation or an
+#'   object of class "\linkS4class{LDAcontrol}".
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 Griffiths2004 <- function(models, control) {
-  # log-likelihoods (remove first burning stage)
+  # log-likelihoods (remove first burnin stage)
   burnin  <- ifelse("burnin" %in% names(control), control$burnin, 0)
+
   logLiks <- lapply(models, function(model) {
-    utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
-    # model@logLiks[-(1 : (control$burnin/control$keep))]
+    # Check to make sure logLiks were kept; if not, value is NaN
+    if (length(model@logLiks) == 0) {
+      message("No logLiks were kept, which is required to use this scoring algorithm. Please regenerate the model using the keep control parameter set to a reasonable value (default = 50).")
+      NaN
+    } else {
+      utils::tail(model@logLiks, n = length(model@logLiks) - burnin/control$keep)
+      # model@logLiks[-(1 : (control$burnin/control$keep))]
+    }
   })
+
   # harmonic means for every model
   metrics <- sapply(logLiks, function(x) {
     # code is a little tricky, see explanation in [Ponweiser2012 p. 36]
@@ -135,7 +167,14 @@ Griffiths2004 <- function(models, control) {
   return(metrics)
 }
 
-#' @keywords internal
+#' CaoJuan2009
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 CaoJuan2009 <- function(models) {
   metrics <- sapply(models, function(model) {
     # topic-word matrix
@@ -156,7 +195,17 @@ CaoJuan2009 <- function(models) {
   return(metrics)
 }
 
-#' @keywords internal
+#' Arun2010
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @param dtm An object of class "\link[tm]{DocumentTermMatrix}" with
+#'   term-frequency weighting or an object coercible to a
+#'   "\link[slam]{simple_triplet_matrix}" with integer entries.
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 Arun2010 <- function(models, dtm) {
   # length of documents (count of words)
   len <- slam::row_sums(dtm)
@@ -179,7 +228,13 @@ Arun2010 <- function(models, dtm) {
 }
 
 #' Deveaud2014
-#' @keywords internal
+#'
+#' Implement scoring algorithm
+#' @param models An object of class "\link[topicmodels]{LDA}
+#' @return A scalar LDA model score
+#'
+#' @export
+#'
 Deveaud2014 <- function(models) {
   metrics <- sapply(models, function(model) {
     ### original version

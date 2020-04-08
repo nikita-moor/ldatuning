@@ -2,6 +2,9 @@
 #'
 #' @docType package
 #' @name ldatuning
+#' @description A package for identifying the number of topics in a text corpus
+#' by generating LDA models, tuning LDA model parameters, and scoring model
+#' results.
 NULL
 #> NULL
 
