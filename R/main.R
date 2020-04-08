@@ -86,7 +86,7 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
   parallel::clusterExport(varlist = c("dtm", "method", "control"),
                           envir = environment())
   models <- parallel::parLapply(X = topics, fun = function(x) {
-   if (is.null(libpath) == FALSE) { .libPaths(libpath) }
+  if (is.null(libpath) == FALSE) { .libPaths(libpath) }
     topicmodels::LDA(dtm, k = x, method = method, control = control)
   })
   if (! any(class(mc.cores) == "cluster")) {
