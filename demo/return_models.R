@@ -2,9 +2,9 @@ packages <- c("ldatuning", "tm")
 lapply(packages, require, character.only = TRUE)
 rm(packages)
 
-data("crude")
+data("crude", package = "tm")
 
-dtm <- DocumentTermMatrix(crude)
+dtm <- tm::DocumentTermMatrix(crude)
 
 LDA_models <- FindTopicsNumber(
   dtm,

@@ -3,10 +3,14 @@ Type: Package
 Title: Tuning of the Latent Dirichlet Allocation Models Parameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
-Version: 0.2.3
-Date: 2020-04-02
-Authors@R: person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
-                  role = c("aut", "cre"))
+Version: 1.0.1
+Date: 2020-04-08
+Authors@R: c(person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
+                  role = c("aut", "cre")),
+                  person("Nathan", "Chaney", role = c("ctb"), 
+                  email = "nathan@nathanchaney.com", 
+                  comment = c(ORCID = "0000-0001-8985-2514")))
+Maintainer: Nathan Chaney <nathan@nathanchaney.com>
 URL: https://github.com/nikita-moor/ldatuning
 BugReports: https://github.com/nikita-moor/ldatuning/issues
 License: BSD_2_clause + file LICENSE
