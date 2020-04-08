@@ -299,6 +299,10 @@ Deveaud2014 <- function(models) {
 #' @export
 #' @import ggplot2
 FindTopicsNumber_plot <- function(values) {
+  # Drop models if present, as they won't rescale
+  if ("LDA_model" %in% names(values)) {
+    values <- values[!names(values) %in% c("LDA_model")]
+  }
   # normalize to [0,1]
   columns <- base::subset(values, select = 2:ncol(values))
   values <- base::data.frame(

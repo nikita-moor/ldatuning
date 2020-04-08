@@ -10,3 +10,4 @@ vignettes/rsconnect/.*
 ^cran-comments\.md$
 revdep
 ^revdep$
+^CRAN-RELEASE$
