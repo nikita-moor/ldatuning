@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 This package uses some metrics to find optimal number of topics for Latent Dirichlet allocation (LDA) models.
 
-```{r, fig.width=9, fig.height=5, echo=FALSE}
+```{r example, fig.width=9, fig.height=5, echo=FALSE}
 result <- read.csv(file = "vignettes/files/APress.csv", header = TRUE)
 ldatuning::FindTopicsNumber_plot(result[result$topics < 500, ])
 ```

@@ -6,11 +6,10 @@ Description: For this first version only metrics to estimate the best fitting
 Version: 1.0.1
 Date: 2020-04-08
 Authors@R: c(person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
-                  role = c("aut", "cre")),
-                  person("Nathan", "Chaney", role = c("ctb"), 
+                  role = c("aut")),
+                  person("Nathan", "Chaney", role = c("ctb", "cre"), 
                   email = "nathan@nathanchaney.com", 
                   comment = c(ORCID = "0000-0001-8985-2514")))
-Maintainer: Nathan Chaney <nathan@nathanchaney.com>
 URL: https://github.com/nikita-moor/ldatuning
 BugReports: https://github.com/nikita-moor/ldatuning/issues
 License: BSD_2_clause + file LICENSE
