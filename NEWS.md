@@ -1,3 +1,6 @@
+# ldatuning 1.0.2
+  * Fixed bug introduced by return_models option in FindTopicNumbers_plot(#16)
+
 # ldatuning 1.0.1
   * Option to return list of trained models (#2)
   * Expose scoring algorithms to public namespace (#15, @titaniumtroop)

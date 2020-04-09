@@ -1,9 +1,8 @@
 ## Resubmission
 This is a resubmission. In this version:
 
-* Changed maintainer per request of the original creator
-* Changed version number from 1.0.0 to 1.0.1
-* Made minor performance improvements
+* Fixed a minor bug introduced by a new feature in 1.0.1
+* Changed version number from 1.0.1 to 1.0.2
 
 
 ## Test environments
@@ -15,11 +14,13 @@ This is a resubmission. In this version:
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There was 1 NOTE concerning the change in maintainer. I have requested that the
-previous maintainer email the CRAN submission team. Her request for me to take
-over maintenance is also documented in the Github repository 
-[nikita-moor/ldatuning](https://github.com/nikita-moor/ldatuning/pull/15) in 
-connection with pull request #15.
+Rhub and win-builder have a note for the days since last update: 0. This is a 
+fix for a small bug identified after the previous submission yesterday.
+
+There is a WARN for v1.0.0 of the package on r-patched-osx-x86_64. The warning 
+appears to be related to an issue with a missing driver in the pandoc 
+installation. There was no error for this check when v1.0.1 was submitted, and
+the vignette causing the error hasn't been changed.
 
 
 ## Downstream dependencies
