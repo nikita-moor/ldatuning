@@ -1,8 +1,9 @@
 ## Resubmission
-This is a resubmission. In this version:
+This is a resubmission of v1.0.2 made at the request of CRAN in order to clear
+NOTEs for 0 days since last submission as well as a couple of transient errors on 
+the CRAN package check results. This version:
 
 * Fixed a minor bug introduced by a new feature in 1.0.1
-* Changed version number from 1.0.1 to 1.0.2
 
 
 ## Test environments
@@ -12,19 +13,10 @@ This is a resubmission. In this version:
 
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-Rhub and win-builder have a note for the days since last update: 0. This is a 
-fix for a small bug identified after the previous submission yesterday.
-
-There is a WARN for v1.0.0 of the package on r-patched-osx-x86_64. The warning 
-appears to be related to an issue with a missing driver in the pandoc 
-installation. There was no error for this check when v1.0.1 was submitted, and
-the vignette causing the error hasn't been changed.
+There were no ERRORs, WARNINGs, or NOTEs.
 
 
 ## Downstream dependencies
 saotd: 1 Note: found 826 marked UTF-8 strings -- This is not unexpected for a 
   package that contains datasets for natural language processing.
-
 
