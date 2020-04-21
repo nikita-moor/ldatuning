@@ -3,8 +3,8 @@ Type: Package
 Title: Tuning of the Latent Dirichlet Allocation Models Parameters
 Description: For this first version only metrics to estimate the best fitting
     number of topics are implemented.
-Version: 1.0.1
-Date: 2020-04-08
+Version: 1.0.2
+Date: 2020-04-09
 Authors@R: c(person("Murzintcev", "Nikita", email = "nikita@lreis.ac.cn",
                   role = c("aut")),
                   person("Nathan", "Chaney", role = c("ctb", "cre"), 

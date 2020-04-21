@@ -39,7 +39,7 @@ NA, which triggers auto-detection of number of cores on the local machine.}
 \item{return_models}{Whether or not to return the model objects of class
 "\link[topicmodels]{LDA}. Defaults to false. Setting to true requires the tibble package.}
 
-\item{verbose}{If false (default), supress all warnings and additional
+\item{verbose}{If false (default), suppress all warnings and additional
 information.}
 
 \item{libpath}{Path to R packages (use only if your R installation can't find
