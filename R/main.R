@@ -323,7 +323,7 @@ FindTopicsNumber_plot <- function(values) {
     labels = c("minimize", "maximize")
   )
 
-  # standart plot
+  # standard plot
   p <- ggplot(values, aes_string(x = "topics", y = "value", group = "variable"))
   p <- p + geom_line()
   p <- p + geom_point(aes_string(shape = "variable"), size = 3)
