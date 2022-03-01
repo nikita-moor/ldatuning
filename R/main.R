@@ -70,6 +70,12 @@ FindTopicsNumber <- function(dtm, topics = seq(10, 40, by = 10),
       if (!"keep" %in% names(control)) control <- c(control, keep = 50)
     }
   }
+  if ("Arun2010" %in% metrics) {
+    if ( max(topics) > ncol(dtm) ) {
+      if (verbose) cat("To use \'Arun2010\', the number of columns must be greater than or equal to the number of topics.\n")
+      metrics <- setdiff(metrics, "Arun2010")
+    }
+  }
 
   # fit models
   if (verbose) cat("fit models...")
